@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="JP_app.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:JP_app.Models"
+    xmlns:vm="clr-namespace:JP_app.ViewModels"
+    x:Name="Root"
+    x:DataType="vm:MainViewModel">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="30"
+                HorizontalOptions="Center"
+                MaximumWidthRequest="800"
+                Spacing="20"
+                VerticalOptions="Center">
+                <!--  Title  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="Yomu / 読む"
+                    TextColor="{StaticResource Primary}" />
+                <VerticalStackLayout Spacing="10">
+                    <!--  Input box  -->
+                    <Entry
+                        FontSize="18"
+                        Placeholder="Type japanese text..."
+                        Text="{Binding InputText}" />
+                    <!--  Button for analyzing  -->
+                    <Button
+                        BackgroundColor="{StaticResource Primary}"
+                        Command="{Binding AnalyzeCommand}"
+                        HorizontalOptions="Center"
+                        Text="Analyze"
+                        TextColor="White"
+                        WidthRequest="200" />
+                </VerticalStackLayout>
+
+                <!--  Line which separates content  -->
+                <BoxView
+                    BackgroundColor="LightGray"
+                    HeightRequest="1"
+                    HorizontalOptions="Fill"
+                    IsVisible="{Binding HasTranslation}" />
+
+                <!--  Box with sentece  -->
+                <Frame
+                    Margin="0,10"
+                    Padding="15"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    IsVisible="{Binding HasTranslation}">
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <Label
+                            FontSize="12"
+                            HorizontalOptions="Center"
+                            Text="Sentence:"
+                            TextColor="Gray" />
+                        <!--  Japanese sentence  -->
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="22"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MainTranslation.Japanese}" />
+                        <!--  English sentence  -->
+                        <Label
+                            Margin="0,5,0,0"
+                            FontAttributes="Italic"
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding MainTranslation.English}" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!--  Box with words  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    IsVisible="{Binding HasTranslation}"
+                    Text="Analysis of the emblem:" />
+                <CollectionView ItemsSource="{Binding RelatedWords}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:WordInfo">
+                            <Frame
+                                Margin="0,5"
+                                Padding="10"
+                                BorderColor="LightBlue"
+                                HasShadow="False">
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <!--  Kanji character  -->
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Text="{Binding KanjiText}"
+                                            TextColor="DarkSlateBlue" />
+                                        <!--  Reading kanji  -->
+                                        <Label
+                                            FontSize="16"
+                                            Text="{Binding Reading}"
+                                            TextColor="Gray"
+                                            VerticalOptions="End" />
+                                    </HorizontalStackLayout>
+                                    <!--  The meaning of kanji  -->
+                                    <Label
+                                        Margin="0,5,0,0"
+                                        FontSize="14"
+                                        Text="{Binding Meaning}" />
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
