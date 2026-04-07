@@ -53,13 +53,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="data\kanjidic2.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiAsset Include="data\kanjidic2.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
+	  <AndroidResource Remove="data\**" />
+	  <Compile Remove="data\**" />
+	  <EmbeddedResource Remove="data\**" />
+	  <MauiCss Remove="data\**" />
+	  <MauiXaml Remove="data\**" />
+	  <None Remove="data\**" />
 	</ItemGroup>
 
 	<ItemGroup>
