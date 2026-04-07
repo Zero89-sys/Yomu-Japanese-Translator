@@ -25,11 +25,11 @@
 | ![Analysis Screen](Photos/YomuTranslate.png) | ![Kanji Screen](Photos/Yomu.png) |
 
 ## How it works
-**1.** User inputs a Japanese sentence.
-**2.** NMeCab breaks the sentence into tokens.
-**3.** The app performs a joint SQL query across JMdict, KanjiDIC, and Tatoeba.
-**4.** Results are presented in a structured MVVM-bound UI.
-
+- **1.** User inputs a Japanese sentence.
+- **2.** NMeCab breaks the sentence into tokens.
+- **3.** The app performs a joint SQL query across JMdict, KanjiDIC, and Tatoeba.
+- **4.** Results are presented in a structured MVVM-bound UI.
+> **_NOTE:_**  Translation only works from Japanese to English
 
 ## 📥 Installation & Setup
 

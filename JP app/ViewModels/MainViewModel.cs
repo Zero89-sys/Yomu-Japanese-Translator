@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Maui.Alerts;
-using JP_app.Models;
+﻿using JP_app.Models;
 using JP_app.Services;
 
 

@@ -1,13 +1,7 @@
 ﻿using JP_app.Models;
-using NMeCab;
 using NMeCab.Specialized;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace JP_app.Services
 {

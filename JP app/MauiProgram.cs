@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui;
 using JP_app.Services;
-using System.Net;
 
 namespace JP_app;
 
