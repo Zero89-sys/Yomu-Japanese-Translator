@@ -31,14 +31,48 @@
                         Text="{Binding InputText}" />
                     <!--  Button for analyzing  -->
                     <Button
-                        BackgroundColor="{StaticResource Primary}"
                         Command="{Binding AnalyzeCommand}"
                         HorizontalOptions="Center"
                         Text="Analyze"
                         TextColor="White"
-                        WidthRequest="200" />
+                        WidthRequest="200">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Offset="0.1" Color="#DD2476" />
+                                <GradientStop Offset="1.0" Color="{StaticResource Primary}" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Shadow>
+                            <Shadow
+                                Brush="Black"
+                                Opacity="0.4"
+                                Radius="15" />
+                        </Button.Shadow>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1" />
+                                            <Setter Property="Opacity" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="1.05" />
+                                            <Setter Property="Opacity" Value="0.9" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Property="Scale" Value="0.95" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
                 </VerticalStackLayout>
-
                 <!--  Line which separates content  -->
                 <BoxView
                     BackgroundColor="LightGray"
