@@ -25,10 +25,21 @@
                     TextColor="{StaticResource Primary}" />
                 <VerticalStackLayout Spacing="10">
                     <!--  Input box  -->
-                    <Entry
-                        FontSize="18"
-                        Placeholder="Type japanese text..."
-                        Text="{Binding InputText}" />
+                    <Border StrokeShape="RoundRectangle 15" StrokeThickness="2">
+                        <Border.Stroke>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
+                                <GradientStop Offset="1.0" Color="#DD2476" />
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Entry
+                            Background="Transparent"
+                            ClearButtonVisibility="WhileEditing"
+                            FontSize="18"
+                            Placeholder="Type japanese text..."
+                            PlaceholderColor="#A0A0A0"
+                            Text="{Binding InputText}" />
+                    </Border>
                     <!--  Button for analyzing  -->
                     <Button
                         Command="{Binding AnalyzeCommand}"

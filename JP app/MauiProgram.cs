@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Maui;
+﻿using SkiaSharp.Extended.UI.Controls;
+using CommunityToolkit.Maui;
 using JP_app.Services;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace JP_app;
 
@@ -10,6 +12,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseSkiaSharp()
 			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
@@ -43,6 +46,18 @@ public static class MauiProgram
 
         // Register the data service as a Singleton (exists for the lifetime of the app)
         builder.Services.AddSingleton(new KanjiService(kanjiPath, distPath, sentPath));
+
+		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoBorders", (handler, view) =>
+		{
+#if ANDROID
+			handler.PlatformView.Background = null;
+            handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#elif IOS || MACCATALYST
+    handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#elif WINDOWS
+    handler.PlatformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+#endif
+        });
 
 #if DEBUG
         builder.Logging.AddDebug();
