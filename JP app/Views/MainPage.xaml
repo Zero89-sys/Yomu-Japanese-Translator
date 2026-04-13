@@ -8,6 +8,14 @@
     x:Name="Root"
     x:DataType="vm:MainViewModel">
 
+    <!--  Linear gradient Background  -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.1" Color="#000033" />
+            <GradientStop Offset="1.0" Color="#6b00b3" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
     <ContentPage.Content>
         <ScrollView>
             <VerticalStackLayout
@@ -25,13 +33,17 @@
                     TextColor="{StaticResource Primary}" />
                 <VerticalStackLayout Spacing="10">
                     <!--  Input box  -->
-                    <Border StrokeShape="RoundRectangle 15" StrokeThickness="2">
-                        <Border.Stroke>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
-                                <GradientStop Offset="1.0" Color="#DD2476" />
-                            </LinearGradientBrush>
-                        </Border.Stroke>
+                    <Border
+                        Stroke="LightBlue"
+                        StrokeShape="RoundRectangle 25"
+                        StrokeThickness="2">
+                        <Border.Shadow>
+                            <Shadow
+                                Brush="Black"
+                                Opacity="0.1"
+                                Radius="10"
+                                Offset="0,5" />
+                        </Border.Shadow>
                         <Entry
                             Background="Transparent"
                             ClearButtonVisibility="WhileEditing"
@@ -40,6 +52,7 @@
                             PlaceholderColor="#A0A0A0"
                             Text="{Binding InputText}" />
                     </Border>
+
                     <!--  Button for analyzing  -->
                     <Button
                         Command="{Binding AnalyzeCommand}"
@@ -49,8 +62,8 @@
                         WidthRequest="200">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0.1" Color="#DD2476" />
-                                <GradientStop Offset="1.0" Color="{StaticResource Primary}" />
+                                <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
+                                <GradientStop Offset="1.0" Color="#825AF2" />
                             </LinearGradientBrush>
                         </Button.Background>
                         <Button.Shadow>
