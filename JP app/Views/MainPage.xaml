@@ -4,177 +4,214 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:JP_app.Models"
+    xmlns:skiaLottie="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
     xmlns:vm="clr-namespace:JP_app.ViewModels"
     x:Name="Root"
     x:DataType="vm:MainViewModel">
 
-    <!--  Linear gradient Background  -->
-    <ContentPage.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0.1" Color="#000033" />
-            <GradientStop Offset="1.0" Color="#6b00b3" />
-        </LinearGradientBrush>
-    </ContentPage.Background>
-
     <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout
+        <Grid>
+            <!--  Wave animation Background  -->
+            <Grid IsClippedToBounds="True">
+                <skiaLottie:SKLottieView
+                    HorizontalOptions="Fill"
+                    RepeatCount="-1"
+                    Scale="1.15"
+                    Source="wave.json"
+                    VerticalOptions="Fill" />
+            </Grid>
+            <BoxView
+                HorizontalOptions="Fill"
+                Opacity="0.5"
+                VerticalOptions="Fill"
+                Color="Black" />
+            <Grid
                 Padding="30"
                 HorizontalOptions="Center"
                 MaximumWidthRequest="800"
-                Spacing="20"
+                RowDefinitions="Auto, *"
                 VerticalOptions="Center">
-                <!--  Title  -->
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="42"
-                    HorizontalOptions="Center"
-                    Text="Yomu / 読む"
-                    TextColor="{StaticResource Primary}" />
-                <VerticalStackLayout Spacing="10">
-                    <!--  Input box  -->
-                    <Border
-                        Stroke="LightBlue"
-                        StrokeShape="RoundRectangle 25"
-                        StrokeThickness="2">
-                        <Border.Shadow>
-                            <Shadow
-                                Brush="Black"
-                                Opacity="0.1"
-                                Radius="10"
-                                Offset="0,5" />
-                        </Border.Shadow>
-                        <Entry
-                            Background="Transparent"
-                            ClearButtonVisibility="WhileEditing"
-                            FontSize="18"
-                            Placeholder="Type japanese text..."
-                            PlaceholderColor="#A0A0A0"
-                            Text="{Binding InputText}" />
-                    </Border>
 
-                    <!--  Button for analyzing  -->
-                    <Button
-                        Command="{Binding AnalyzeCommand}"
+                <VerticalStackLayout
+                    Grid.Row="0"
+                    Margin="0,0,0,20"
+                    Spacing="20">
+                    <!--  Title  -->
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="42"
                         HorizontalOptions="Center"
-                        Text="Analyze"
-                        TextColor="White"
-                        WidthRequest="200">
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
-                                <GradientStop Offset="1.0" Color="#825AF2" />
-                            </LinearGradientBrush>
-                        </Button.Background>
-                        <Button.Shadow>
+                        Text="Yomu / 読む"
+                        TextColor="{StaticResource Primary}">
+                        <Label.Shadow>
                             <Shadow
                                 Brush="Black"
-                                Opacity="0.4"
-                                Radius="15" />
-                        </Button.Shadow>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="1" />
-                                            <Setter Property="Opacity" Value="1" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="1.05" />
-                                            <Setter Property="Opacity" Value="0.9" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Property="Scale" Value="0.95" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateGroupList>
-                        </VisualStateManager.VisualStateGroups>
-                    </Button>
-                </VerticalStackLayout>
-                <!--  Line which separates content  -->
-                <BoxView
-                    BackgroundColor="LightGray"
-                    HeightRequest="1"
-                    HorizontalOptions="Fill"
-                    IsVisible="{Binding HasTranslation}" />
+                                Opacity="0.6"
+                                Radius="10"
+                                Offset="5,5" />
+                        </Label.Shadow>
+                    </Label>
+                    <VerticalStackLayout Spacing="10">
+                        <!--  Input box  -->
+                        <Border
+                            Stroke="LightBlue"
+                            StrokeShape="RoundRectangle 25"
+                            StrokeThickness="2">
+                            <Border.Shadow>
+                                <Shadow
+                                    Brush="Black"
+                                    Opacity="0.1"
+                                    Radius="10"
+                                    Offset="0,5" />
+                            </Border.Shadow>
+                            <Entry
+                                Background="Transparent"
+                                ClearButtonVisibility="WhileEditing"
+                                FontSize="18"
+                                Placeholder="Type japanese text..."
+                                PlaceholderColor="#A0A0A0"
+                                Text="{Binding InputText}" />
+                        </Border>
 
-                <!--  Box with sentece  -->
-                <Frame
-                    Margin="0,10"
-                    Padding="15"
-                    BorderColor="LightGray"
-                    CornerRadius="10"
-                    IsVisible="{Binding HasTranslation}">
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <Label
-                            FontSize="12"
+                        <!--  Button for analyzing  -->
+                        <Button
+                            Command="{Binding AnalyzeCommand}"
                             HorizontalOptions="Center"
-                            Text="Sentence:"
-                            TextColor="Gray" />
-                        <!--  Japanese sentence  -->
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="22"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding MainTranslation.Japanese}" />
-                        <!--  English sentence  -->
-                        <Label
-                            Margin="0,5,0,0"
-                            FontAttributes="Italic"
-                            FontSize="18"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            Text="{Binding MainTranslation.English}" />
+                            Text="Analyze"
+                            TextColor="White"
+                            WidthRequest="200">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
+                                    <GradientStop Offset="1.0" Color="#825AF2" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Shadow>
+                                <Shadow
+                                    Brush="Black"
+                                    Opacity="0.4"
+                                    Radius="15" />
+                            </Button.Shadow>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1" />
+                                                <Setter Property="Opacity" Value="1" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="1.05" />
+                                                <Setter Property="Opacity" Value="0.9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Property="Scale" Value="0.95" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+
                     </VerticalStackLayout>
-                </Frame>
+                </VerticalStackLayout>
 
-                <!--  Box with words  -->
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="18"
+                <CollectionView
+                    Grid.Row="1"
                     IsVisible="{Binding HasTranslation}"
-                    Text="Analysis of the emblem:" />
-                <CollectionView ItemsSource="{Binding RelatedWords}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:WordInfo">
+                    ItemsSource="{Binding RelatedWords}">
+
+                    <CollectionView.Header>
+                        <VerticalStackLayout Margin="0,0,0,10" Spacing="15">
+                            <!--  Line which separates content  -->
+                            <BoxView
+                                BackgroundColor="LightGray"
+                                HeightRequest="1"
+                                HorizontalOptions="Fill" />
+                            <!--  Box with sentece  -->
                             <Frame
-                                Margin="0,5"
-                                Padding="10"
-                                BorderColor="LightBlue"
-                                HasShadow="False">
-                                <VerticalStackLayout>
-                                    <HorizontalStackLayout Spacing="10">
-                                        <!--  Kanji character  -->
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="20"
-                                            Text="{Binding KanjiText}"
-                                            TextColor="DarkSlateBlue" />
-                                        <!--  Reading kanji  -->
-                                        <Label
-                                            FontSize="16"
-                                            Text="{Binding Reading}"
-                                            TextColor="Gray"
-                                            VerticalOptions="End" />
-                                    </HorizontalStackLayout>
-                                    <!--  The meaning of kanji  -->
+                                Padding="15"
+                                BorderColor="LightGray"
+                                CornerRadius="10">
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <!--  Title for sentence  -->
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalOptions="Center"
+                                        Text="Sentence:"
+                                        TextColor="Gray" />
+                                    <!--  Japanese sentence  -->
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="22"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding MainTranslation.Japanese}" />
+                                    <!--  English sentence  -->
                                     <Label
                                         Margin="0,5,0,0"
-                                        FontSize="14"
-                                        Text="{Binding Meaning}" />
+                                        FontAttributes="Italic"
+                                        FontSize="18"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding MainTranslation.English}" />
                                 </VerticalStackLayout>
                             </Frame>
+
+                            <!--  Box with words  -->
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Analysis of the emblem:" />
+                        </VerticalStackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:WordInfo">
+                            <Border
+                                Margin="0,5"
+                                Padding="12"
+                                Background="Black"
+                                Stroke="LightBlue"
+                                StrokeShape="RoundRectangle 10">
+                                <Grid
+                                    ColumnDefinitions="Auto, *"
+                                    ColumnSpacing="15"
+                                    RowDefinitions="Auto, Auto">
+                                    <!--  Kanji character  -->
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="26"
+                                        Text="{Binding KanjiText}"
+                                        TextColor="DarkSlateBlue"
+                                        VerticalOptions="Center" />
+                                    <!--  Reading kanji  -->
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="14"
+                                        Text="{Binding Reading}"
+                                        TextColor="Gray"
+                                        VerticalOptions="End" />
+                                    <!--  The meaning of kanji  -->
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        FontSize="16"
+                                        Text="{Binding Meaning}"
+                                        VerticalOptions="Start" />
+                                </Grid>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </VerticalStackLayout>
-        </ScrollView>
+            </Grid>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
