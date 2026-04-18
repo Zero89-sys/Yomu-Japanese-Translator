@@ -1,5 +1,7 @@
-﻿using JP_app.Models;
+﻿using CommunityToolkit.Maui;
+using JP_app.Models;
 using JP_app.Services;
+using System.Windows.Input;
 
 
 namespace JP_app.ViewModels;
@@ -112,5 +114,41 @@ public partial class MainViewModel : BaseViewModel
 
         // Extraction and details of Kanji
         KanjiResult = await _kanjiService.GetMultipleKanjiDetails(InputText);
+    }
+    // Copies the japanese sentence to the system clipboard.
+    [RelayCommand]
+    async Task CopyJapanese()
+    {
+        if (string.IsNullOrEmpty(MainTranslation.Japanese)) return;
+
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            try
+            {
+                await Clipboard.Default.SetTextAsync(MainTranslation.Japanese);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
+            }
+        });
+    }
+    // Copies the english sentence to the system clipboard.
+    [RelayCommand]
+    async Task CopyEnglish()
+    {
+        if (string.IsNullOrEmpty(MainTranslation.English)) return;
+
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            try
+            {
+                await Clipboard.Default.SetTextAsync(MainTranslation.English);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
+            }
+        });
     }
 }

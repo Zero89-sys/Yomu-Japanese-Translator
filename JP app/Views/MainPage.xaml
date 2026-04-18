@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:JP_app.Models"
     xmlns:skiaLottie="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:JP_app.ViewModels"
     x:Name="Root"
     x:DataType="vm:MainViewModel">
@@ -80,6 +81,7 @@
                             Text="Analyze"
                             TextColor="White"
                             WidthRequest="200">
+                            <!--  Styles for Analyze button  -->
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Offset="0.1" Color="{StaticResource Primary}" />
@@ -150,7 +152,30 @@
                                         FontSize="22"
                                         HorizontalOptions="Center"
                                         HorizontalTextAlignment="Center"
-                                        Text="{Binding MainTranslation.Japanese}" />
+                                        Text="{Binding MainTranslation.Japanese}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyJapaneseCommand}" />
+                                        </Label.GestureRecognizers>
+                                        <!--  Styles for japanese sentence  -->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="1" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="0.95" />
+                                                            <Setter Property="Opacity" Value="0.8" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
                                     <!--  English sentence  -->
                                     <Label
                                         Margin="0,5,0,0"
@@ -158,7 +183,30 @@
                                         FontSize="18"
                                         HorizontalOptions="Center"
                                         HorizontalTextAlignment="Center"
-                                        Text="{Binding MainTranslation.English}" />
+                                        Text="{Binding MainTranslation.English}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyEnglishCommand}" />
+                                        </Label.GestureRecognizers>
+                                        <!--  Styles for english sentence  -->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="1" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="0.95" />
+                                                            <Setter Property="Opacity" Value="0.8" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
                                 </VerticalStackLayout>
                             </Frame>
 
@@ -190,7 +238,30 @@
                                         FontSize="26"
                                         Text="{Binding KanjiText}"
                                         TextColor="DarkSlateBlue"
-                                        VerticalOptions="Center" />
+                                        VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyKanjiCommand}" />
+                                        </Label.GestureRecognizers>
+                                        <!--  Styles for kanji character  -->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="1" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Scale" Value="0.9" />
+                                                            <Setter Property="Opacity" Value="0.8" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
                                     <!--  Reading kanji  -->
                                     <Label
                                         Grid.Row="0"
@@ -198,14 +269,56 @@
                                         FontSize="14"
                                         Text="{Binding Reading}"
                                         TextColor="Gray"
-                                        VerticalOptions="End" />
+                                        VerticalOptions="End">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyReadingCommand}" />
+                                        </Label.GestureRecognizers>
+                                        <!--  Styles for kanji reading  -->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Opacity" Value="0.8" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
                                     <!--  The meaning of kanji  -->
                                     <Label
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         FontSize="16"
                                         Text="{Binding Meaning}"
-                                        VerticalOptions="Start" />
+                                        VerticalOptions="Start">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CopyReadingCommand}" />
+                                        </Label.GestureRecognizers>
+                                        <!--  Styles for kanji meaning  -->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="Opacity" Value="0.8" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
                                 </Grid>
                             </Border>
                         </DataTemplate>
