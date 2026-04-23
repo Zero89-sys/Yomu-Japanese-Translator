@@ -64,6 +64,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="14.0.1" />
 		<PackageReference Include="CommunityToolkit.MVVM" Version="8.4.2" />
+		<PackageReference Include="Google.Cloud.Vision.V1" Version="3.8.0" />
 		<PackageReference Include="LibNMeCab" Version="0.10.2" />
 		<PackageReference Include="LibNMeCab.IpaDicBin" Version="0.10.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />

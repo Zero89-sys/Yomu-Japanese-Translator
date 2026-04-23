@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Maui;
+using Google.Cloud.Vision.V1;
+using Google.Apis.Auth.OAuth2;
 using JP_app.Models;
 using JP_app.Services;
+using System.Net.Http.Json;
 
 
 namespace JP_app.ViewModels;
@@ -37,6 +40,10 @@ public partial class MainViewModel : BaseViewModel
     // The primary translation match found in the database
     [ObservableProperty]
     private SentenceInfo _mainTranslation;
+
+    // Is Busy
+    [ObservableProperty]
+    private bool _isBusy;
 
     // Constructor with Dependency Injection for accessing the database service
     public MainViewModel (KanjiService kanjiService)
@@ -149,5 +156,66 @@ public partial class MainViewModel : BaseViewModel
                 System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
             }
         });
+    }
+
+
+    // Loading image
+    [RelayCommand]
+    private async Task PickImageAndAnalyzeAsync()
+    {
+        // Open the system image selector
+        var photo = await MediaPicker.Default.PickPhotoAsync();
+        if(photo == null) return;
+
+        if (IsBusy) return;
+        try
+        {
+
+            // Protection against multiple executions during an ongoing operation
+            IsBusy = true;
+
+            // Load image data into a byte array
+            using var stream = await photo.OpenReadAsync();
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            var imageBytes = ms.ToArray();
+
+            // Get text from image using Google Vision API
+            string detectionText = await CallGoogleVisionApiAsync(imageBytes);
+
+            if (!string.IsNullOrEmpty(detectionText))
+            {
+
+                // Removing line breaks and spaces for better Japanese processing
+                string cleanText = detectionText.Replace("\n", "").Replace("\r", "").Trim();
+                InputText = cleanText;
+                await AnalyzeCommand.ExecuteAsync(null);  // Run existing text analysis
+            }
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    // Calling Google Vision API
+    private async Task<string> CallGoogleVisionApiAsync(byte[] imageBytes)
+    {
+        // Retrieve authorization data from a file in the application package
+        using var authStream = await FileSystem.OpenAppPackageFileAsync("google-auth.json");
+        var credential = GoogleCredential.FromStream(authStream);
+
+        // Client initialization
+        var clientBuilder = new ImageAnnotatorClientBuilder
+        {
+            Credential = credential
+        };
+        var client = await clientBuilder.BuildAsync();
+
+        // Perform text detection itself (OCR)
+        var image = Google.Cloud.Vision.V1.Image.FromBytes(imageBytes);
+        var response = await client.DetectTextAsync(image);
+
+        return response.FirstOrDefault()?.Description ?? string.Empty;
     }
 }

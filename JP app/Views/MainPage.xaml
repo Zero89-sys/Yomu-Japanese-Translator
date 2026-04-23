@@ -65,15 +65,33 @@
                                     Radius="10"
                                     Offset="0,5" />
                             </Border.Shadow>
-                            <Entry
-                                Background="Transparent"
-                                ClearButtonVisibility="WhileEditing"
-                                FontSize="18"
-                                Placeholder="Type japanese text..."
-                                PlaceholderColor="#A0A0A0"
-                                Text="{Binding InputText}" />
-                        </Border>
+                            <Grid ColumnDefinitions="*, Auto, Auto" HeightRequest="60">
+                                <Entry
+                                    Background="Transparent"
+                                    ClearButtonVisibility="WhileEditing"
+                                    FontSize="18"
+                                    Placeholder="Type japanese text..."
+                                    PlaceholderColor="#A0A0A0"
+                                    Text="{Binding InputText}" />
+                                <ActivityIndicator
+                                    HeightRequest="50"
+                                    HorizontalOptions="Center"
+                                    IsRunning="{Binding IsBusy}"
+                                    IsVisible="{Binding IsBusy}"
+                                    WidthRequest="50"
+                                    Color="{StaticResource Primary}" />
 
+                                <!--  Icon button for image import  -->
+                                <ImageButton
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding PickImageAndAnalyzeCommand}"
+                                    HeightRequest="40"
+                                    Source="photo.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40" />
+                            </Grid>
+                        </Border>
                         <!--  Button for analyzing  -->
                         <Button
                             Command="{Binding AnalyzeCommand}"
