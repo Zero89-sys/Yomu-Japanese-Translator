@@ -4,6 +4,7 @@ using Google.Apis.Auth.OAuth2;
 using JP_app.Models;
 using JP_app.Services;
 using System.Net.Http.Json;
+using Tesseract;
 
 
 namespace JP_app.ViewModels;
@@ -158,14 +159,13 @@ public partial class MainViewModel : BaseViewModel
         });
     }
 
-
     // Loading image
     [RelayCommand]
     private async Task PickImageAndAnalyzeAsync()
     {
         // Open the system image selector
         var photo = await MediaPicker.Default.PickPhotoAsync();
-        if(photo == null) return;
+        if (photo == null) return;
 
         if (IsBusy) return;
         try
@@ -181,13 +181,12 @@ public partial class MainViewModel : BaseViewModel
             var imageBytes = ms.ToArray();
 
             // Get text from image using Google Vision API
-            string detectionText = await CallGoogleVisionApiAsync(imageBytes);
+            string detectionText = await CallTesseractOrcAsync(imageBytes);
 
             if (!string.IsNullOrEmpty(detectionText))
             {
-
                 // Removing line breaks and spaces for better Japanese processing
-                string cleanText = detectionText.Replace("\n", "").Replace("\r", "").Trim();
+                string cleanText = detectionText.Replace(" ", "").Replace("\n", "").Trim();
                 InputText = cleanText;
                 await AnalyzeCommand.ExecuteAsync(null);  // Run existing text analysis
             }
@@ -198,24 +197,41 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
-    // Calling Google Vision API
-    private async Task<string> CallGoogleVisionApiAsync(byte[] imageBytes)
+    // Main method for calling the Tesseract OCR library
+    private async Task<string> CallTesseractOrcAsync(byte[] imageBytes)
     {
-        // Retrieve authorization data from a file in the application package
-        using var authStream = await FileSystem.OpenAppPackageFileAsync("google-auth.json");
-        var credential = GoogleCredential.FromStream(authStream);
+        // Path to the application's local storage
+        string tessDataPath = Path.Combine(FileSystem.AppDataDirectory, "tessdata");
 
-        // Client initialization
-        var clientBuilder = new ImageAnnotatorClientBuilder
+        await CopyTessDataIfNeeded(tessDataPath);
+
+        using var engine = new TesseractEngine(tessDataPath, "jpn+jpn_vert", EngineMode.Default);
+
+        engine.DefaultPageSegMode = PageSegMode.AutoOsd;
+
+        using var img = Pix.LoadFromMemory(imageBytes);
+
+        using var page = engine.Process(img);
+        return page.GetText();
+    }
+
+    // Helper method for copying files
+    private async Task CopyTessDataIfNeeded(string targetFolder)
+    {
+        if(!Directory.Exists(targetFolder)) Directory.CreateDirectory(targetFolder);
+        
+        // List of models
+        string[] dataFiles = { "jpn.traineddata", "jpn_vert.traineddata"};
+        
+        foreach (var filename in dataFiles)
         {
-            Credential = credential
-        };
-        var client = await clientBuilder.BuildAsync();
-
-        // Perform text detection itself (OCR)
-        var image = Google.Cloud.Vision.V1.Image.FromBytes(imageBytes);
-        var response = await client.DetectTextAsync(image);
-
-        return response.FirstOrDefault()?.Description ?? string.Empty;
+            string targetFile = Path.Combine(targetFolder, filename);
+            if (!File.Exists(targetFile))
+            {
+                using var stream = await FileSystem.OpenAppPackageFileAsync(filename);
+                using var outputStream = File.Create(targetFile);
+                await stream.CopyToAsync(outputStream);
+            }
+        }
     }
 }

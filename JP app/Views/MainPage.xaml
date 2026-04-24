@@ -73,13 +73,12 @@
                                     Placeholder="Type japanese text..."
                                     PlaceholderColor="#A0A0A0"
                                     Text="{Binding InputText}" />
+
                                 <ActivityIndicator
-                                    HeightRequest="50"
                                     HorizontalOptions="Center"
                                     IsRunning="{Binding IsBusy}"
                                     IsVisible="{Binding IsBusy}"
-                                    WidthRequest="50"
-                                    Color="{StaticResource Primary}" />
+                                    Color="LightBlue" />
 
                                 <!--  Icon button for image import  -->
                                 <ImageButton
