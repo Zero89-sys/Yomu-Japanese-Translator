@@ -46,6 +46,7 @@ The app follows a structured pipeline to transform raw input into linguistic ins
 
 ## 🙏 Acknowledgments
 This project uses linguistic data provided by:
+- **Tesseract OCR** – Optical Character Recognition engine for extracting Japanese text from images.
 - **Electronic Dictionary Research and Development Group** (JMdict, KANJIDIC2)
 - **Tatoeba Project** (Example sentences)
 - **NMeCab** (Morphological analysis engine)
