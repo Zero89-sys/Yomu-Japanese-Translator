@@ -8,6 +8,7 @@
 - **Comprehensive Kanji Data:** Detailed information for over 13,000 Kanji (meanings, readings) via **KANJIDIC2**.
 - **Integrated Dictionary:** Instant lookups for words using the **JMdict** database.
 - **Contextual Examples:** Displays example sentences from the **Tatoeba Project** to show how words are used in real-life scenarios. Provides contextual translations by retrieving the best matching sentences from the database.
+- **OCR Integration:** Extract Japanese text from images using **Tesseract OCR**, supporting both horizontal and vertical layouts.
 - **Offline-First:** All linguistic data is stored in optimized **SQLite** databases locally on the device. No internet connection required for analysis.
 
 ## 🛠️ Technical Stack
@@ -15,6 +16,7 @@
 - **Framework:** .NET MAUI (Multi-platform App UI)
 - **Pattern:** MVVM (Model-View-ViewModel) using **CommunityToolkit.Mvvm**
 - **Database:** SQLite with multiple attached databases (KanjiDIC, JMDict, Tatoeba)
+- **OCR Engine:** Tesseract OCR (Offline)
 - **Linguistic Engine:** NMeCab (Japanese Morphological Analyzer)
 - **UI:** XAML with custom DataTemplates and CollectionViews
 
@@ -25,7 +27,10 @@
 | ![Analysis Screen](Photos/YomuTranslate.png) | ![Kanji Screen](Photos/Yomu.png) |
 
 ## How it works
-- **1.** **Input:** User inputs a Japanese sentence.
+The app follows a structured pipeline to transform raw input into linguistic insights:
+- **1. Input Methods:** 
+   - **Manual Text Entry:** Users can type or paste Japanese text directly into the analyzer.
+   - **Optical Character Recognition (OCR):** Using Tesseract OCR, the app can extract Japanese text from uploaded images
 - **2.** **Tokenization:** NMeCab breaks the sentence into tokens.
 - **3.** **Lookup:** The app performs a joint SQL query across JMdict, KanjiDIC, and Tatoeba.
 - **4.** **Display:** Results are presented in a structured MVVM-bound UI.
