@@ -1,10 +1,8 @@
 ﻿using CommunityToolkit.Maui;
-using Google.Cloud.Vision.V1;
-using Google.Apis.Auth.OAuth2;
 using JP_app.Models;
 using JP_app.Services;
-using System.Net.Http.Json;
 using Tesseract;
+using System.Text;
 
 
 namespace JP_app.ViewModels;
@@ -202,16 +200,14 @@ public partial class MainViewModel : BaseViewModel
     {
         // Path to the application's local storage
         string tessDataPath = Path.Combine(FileSystem.AppDataDirectory, "tessdata");
-
         await CopyTessDataIfNeeded(tessDataPath);
 
         using var engine = new TesseractEngine(tessDataPath, "jpn+jpn_vert", EngineMode.Default);
-
         engine.DefaultPageSegMode = PageSegMode.AutoOsd;
 
         using var img = Pix.LoadFromMemory(imageBytes);
-
         using var page = engine.Process(img);
+
         return page.GetText();
     }
 
