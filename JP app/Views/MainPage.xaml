@@ -7,7 +7,7 @@
     xmlns:skiaLottie="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:JP_app.ViewModels"
-    x:Name="rootPage"
+    x:Name="Root"
     x:DataType="vm:MainViewModel">
 
     <ContentPage.Content>
@@ -276,7 +276,7 @@
                                 <Grid
                                     ColumnDefinitions="Auto, *, Auto"
                                     ColumnSpacing="15"
-                                    RowDefinitions="Auto, Auto">
+                                    RowDefinitions="Auto">
                                     <!--  Kanji character  -->
                                     <Label
                                         Grid.Row="0"
@@ -352,7 +352,7 @@
                                             Text="{Binding Meaning}"
                                             VerticalOptions="Start">
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding CopyReadingCommand}" />
+                                                <TapGestureRecognizer Command="{Binding CopyMeaningCommand}" />
                                             </Label.GestureRecognizers>
                                             <!--  Styles for kanji meaning  -->
                                             <VisualStateManager.VisualStateGroups>
