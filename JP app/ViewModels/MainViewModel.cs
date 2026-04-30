@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Maui;
 using JP_app.Models;
 using JP_app.Services;
-using Tesseract;
+using Microsoft.Maui.Media;
+using NAudio.Wave;
 using System.Text;
+using Tesseract;
 
 
 namespace JP_app.ViewModels;
 
-public partial class MainViewModel : BaseViewModel
+public partial class MainViewModel : ObservableObject
 {
     private readonly KanjiService _kanjiService;
     public bool HasTranslation => MainTranslation != null;
@@ -155,6 +157,38 @@ public partial class MainViewModel : BaseViewModel
                 System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
             }
         });
+    }
+    // Sentence to speech
+    [RelayCommand]
+    private async Task SpeakSentenceAsync(SentenceInfo sentence)
+    {
+        if (sentence == null) return;
+        await SpeakAsync(sentence.Japanese);
+    }
+
+    // Text to speech method
+    private async Task SpeakAsync(string text)
+    {
+        try
+        {
+            // Retrieve languages ​​supported by the device
+            var locales = await TextToSpeech.Default.GetLocalesAsync();
+            var japaneseLocale = locales.FirstOrDefault(l => l.Language.Contains("ja", StringComparison.OrdinalIgnoreCase));
+
+            SpeechOptions options = new SpeechOptions
+            {
+                // Volume
+                Volume = 1.0f,
+                Pitch = 1.0f,
+                Locale = japaneseLocale // If null, it will use the default language
+            };
+
+            await TextToSpeech.Default.SpeakAsync(text, options);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"TTS error: {ex.Message}");
+        }
     }
 
     // Loading image

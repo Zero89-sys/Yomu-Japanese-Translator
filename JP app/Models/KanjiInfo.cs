@@ -1,6 +1,12 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Media;
+using System.Runtime.InteropServices;
+using System.Speech.Synthesis;
 using SQLite;
+using System.Windows.Input;
+using NAudio.Wave;
 
 namespace JP_app.Models
 {
@@ -26,6 +32,38 @@ namespace JP_app.Models
         public string Reading { get; set; }
         public string Meaning { get; set; }
 
+
+        // Kanji to speech
+        [RelayCommand]
+        private async Task SpeakWordAsync()
+        {
+            await SpeakAsync(KanjiText);
+        }
+
+        // Text to speech
+        private async Task SpeakAsync(string text)
+        {
+            try
+            {
+                // Retrieve languages ​​supported by the device
+                var locales = await TextToSpeech.Default.GetLocalesAsync();
+                var japaneseLocale = locales.FirstOrDefault(l => l.Language.Contains("ja", StringComparison.OrdinalIgnoreCase));
+
+                SpeechOptions options = new SpeechOptions
+                {
+                    Volume = 1.0f,
+                    Pitch = 1.0f,
+                    Locale = japaneseLocale // If null, it will use the default language
+                };
+
+                await TextToSpeech.Default.SpeakAsync(text, options);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"TTS error: {ex.Message}");
+            }
+        }
+
         // Copies the kanji word to the system clipboard.
         [RelayCommand]
         async Task CopyKanji()
@@ -40,7 +78,7 @@ namespace JP_app.Models
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Page error: {ex.Message}");
                 }
             });
         }
@@ -58,7 +96,7 @@ namespace JP_app.Models
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Page error: {ex.Message}");
                 }
             });
         }
@@ -76,7 +114,7 @@ namespace JP_app.Models
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Chyba schránky: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"Page error: {ex.Message}");
                 }
             });
         }
