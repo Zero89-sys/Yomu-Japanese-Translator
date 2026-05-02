@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Microsoft.Maui.Media;
+using Microsoft.Maui.Controls;
 using System.Runtime.InteropServices;
 using System.Speech.Synthesis;
 using SQLite;
+using SkiaSharp.Skottie;
 using System.Windows.Input;
 using NAudio.Wave;
 
@@ -63,6 +66,23 @@ namespace JP_app.Models
                 System.Diagnostics.Debug.WriteLine($"TTS error: {ex.Message}");
             }
         }
+        [ObservableProperty]
+        private bool isSpeaking;
+        // Command to play sound and start Lottie animation
+        public ICommand SpeakCommand => new Command(async () =>
+        {
+            if (IsSpeaking) return;
+            IsSpeaking = true;
+
+            try
+            {
+                await SpeakAsync(KanjiText);
+            }
+            finally
+            {
+                IsSpeaking = false;
+            }
+        });
 
         // Copies the kanji word to the system clipboard.
         [RelayCommand]

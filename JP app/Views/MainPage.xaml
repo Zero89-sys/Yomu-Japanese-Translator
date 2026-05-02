@@ -220,41 +220,24 @@
                                             </VisualStateManager.VisualStateGroups>
                                         </Label>
                                     </VerticalStackLayout>
-                                    <!--  Label button for sentence to speech  -->
-                                    <Label
-                                        Grid.Column="2"
-                                        Padding="10"
-                                        FontSize="24"
+                                    <!--  Grid button for sentence to speech  -->
+                                    <Grid
+                                        Grid.Column="1"
                                         HorizontalOptions="End"
-                                        Text="🔊"
-                                        TextColor="LightBlue"
                                         VerticalOptions="Center">
-                                        <Label.GestureRecognizers>
+                                        <Grid.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding SpeakSentenceCommand}" CommandParameter="{Binding MainTranslation}" />
-                                        </Label.GestureRecognizers>
-                                        <!--  Styles for sentence label button  -->
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroupList>
-                                                <VisualStateGroup x:Name="CommonStates">
-                                                    <VisualState x:Name="Normal">
-                                                        <VisualState.Setters>
-                                                            <Setter Property="Scale" Value="1" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                    <VisualState x:Name="PointerOver">
-                                                        <VisualState.Setters>
-                                                            <Setter Property="Scale" Value="1.1" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                    <VisualState x:Name="Pressed">
-                                                        <VisualState.Setters>
-                                                            <Setter Property="Scale" Value="0.95" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateGroupList>
-                                        </VisualStateManager.VisualStateGroups>
-                                    </Label>
+                                        </Grid.GestureRecognizers>
+                                        <skiaLottie:SKLottieView
+                                            HeightRequest="30"
+                                            HorizontalOptions="Fill"
+                                            InputTransparent="True"
+                                            IsAnimationEnabled="{Binding IsSpeaking}"
+                                            RepeatCount="-1"
+                                            Source="Audio_button.json"
+                                            VerticalOptions="Fill"
+                                            WidthRequest="30" />
+                                    </Grid>
                                 </Grid>
                             </Frame>
 
@@ -373,38 +356,25 @@
                                             </VisualStateManager.VisualStateGroups>
                                         </Label>
                                     </VerticalStackLayout>
-                                    <!--  Label button for kanji to speech  -->
-                                    <Label
+                                    <!--  Grid button for kanji to speech  -->
+                                    <Grid
                                         Grid.Row="0"
                                         Grid.RowSpan="2"
                                         Grid.Column="2"
-                                        Padding="10"
-                                        FontSize="24"
                                         HorizontalOptions="End"
-                                        Text="🔊"
-                                        TextColor="LightBlue"
                                         VerticalOptions="Center">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SpeakWordCommand}" CommandParameter="{Binding .}" />
-                                        </Label.GestureRecognizers>
-                                        <!--  Styles for kanji label button  -->
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroupList>
-                                                <VisualStateGroup x:Name="CommonStates">
-                                                    <VisualState x:Name="Normal">
-                                                        <VisualState.Setters>
-                                                            <Setter Property="Scale" Value="1" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                    <VisualState x:Name="PointerOver">
-                                                        <VisualState.Setters>
-                                                            <Setter Property="Scale" Value="1.1" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateGroupList>
-                                        </VisualStateManager.VisualStateGroups>
-                                    </Label>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SpeakCommand}" CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+                                        <skiaLottie:SKLottieView
+                                            HeightRequest="30"
+                                            HorizontalOptions="Fill"
+                                            IsAnimationEnabled="{Binding IsSpeaking}"
+                                            RepeatCount="-1"
+                                            Source="Audio_button.json"
+                                            VerticalOptions="Fill"
+                                            WidthRequest="30" />
+                                    </Grid>
                                 </Grid>
                             </Border>
                         </DataTemplate>

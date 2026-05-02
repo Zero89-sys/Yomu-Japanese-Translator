@@ -4,6 +4,7 @@ using JP_app.Services;
 using Microsoft.Maui.Media;
 using NAudio.Wave;
 using System.Text;
+using System.Windows.Input;
 using Tesseract;
 
 
@@ -158,12 +159,26 @@ public partial class MainViewModel : ObservableObject
             }
         });
     }
+
+    [ObservableProperty]
+    private bool isSpeaking;
     // Sentence to speech
     [RelayCommand]
     private async Task SpeakSentenceAsync(SentenceInfo sentence)
     {
         if (sentence == null) return;
-        await SpeakAsync(sentence.Japanese);
+
+        if (IsSpeaking) return;
+        IsSpeaking = true;
+
+        try
+        {
+            await SpeakAsync(sentence.Japanese);
+        }
+        finally
+        {
+            IsSpeaking = false;
+        }
     }
 
     // Text to speech method
