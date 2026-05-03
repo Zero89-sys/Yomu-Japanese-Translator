@@ -9,6 +9,7 @@
 - **Integrated Dictionary:** Instant lookups for words using the **JMdict** database.
 - **Contextual Examples:** Displays example sentences from the **Tatoeba Project** to show how words are used in real-life scenarios. Provides contextual translations by retrieving the best matching sentences from the database.
 - **OCR Integration:** Extract Japanese text from images using **Tesseract OCR**, supporting both horizontal and vertical layouts.
+- **Text-to-Speech:** Allows users to listen to the pronunciation of specific kanji or sentences by clicking an audio button.
 - **Offline-First:** All linguistic data is stored in optimized **SQLite** databases locally on the device. No internet connection required for analysis.
 
 ## 🛠️ Technical Stack
@@ -34,7 +35,9 @@ The app follows a structured pipeline to transform raw input into linguistic ins
 - **2.** **Tokenization:** NMeCab breaks the sentence into tokens.
 - **3.** **Lookup:** The app performs a joint SQL query across JMdict, KanjiDIC, and Tatoeba.
 - **4.** **Display:** Results are presented in a structured MVVM-bound UI.
-- **5.** **Copy:** Click on a result to copy it to the clipboard.
+- **5.** **Actions:** 
+   - **Copy:** Click on a result to copy it to the clipboard.
+   - **Text-to-Speech:** Click the audio button to listen to the pronunciation of specific kanji or sentences.
 > **_NOTE:_**  Translation only works from Japanese to English
 
 ## 📥 Installation & Setup
