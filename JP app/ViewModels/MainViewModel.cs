@@ -1,10 +1,5 @@
-﻿using CommunityToolkit.Maui;
-using JP_app.Models;
+﻿using JP_app.Models;
 using JP_app.Services;
-using Microsoft.Maui.Media;
-using NAudio.Wave;
-using System.Text;
-using System.Windows.Input;
 using Tesseract;
 
 
