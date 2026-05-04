@@ -1,15 +1,5 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Media;
-using Microsoft.Maui.Controls;
-using System.Runtime.InteropServices;
-using System.Speech.Synthesis;
-using SQLite;
-using SkiaSharp.Skottie;
+﻿using SQLite;
 using System.Windows.Input;
-using NAudio.Wave;
 
 namespace JP_app.Models
 {
